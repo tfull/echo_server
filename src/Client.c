@@ -43,13 +43,15 @@ int loop(const char *server, short port){
             index += size;
         }
 
-        for(index = 0; index < length + 1; ){
+        for(index = 0; index < length; ){
             int size = recv(sock, recv_buf + index, length - index, 0);
             if(size < 0){
                 perror("recv");
             }
             index += size;
         }
+
+        recv_buf[index] = '\0';
 
         printf("%s\n", recv_buf);
     }

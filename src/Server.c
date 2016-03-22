@@ -64,11 +64,12 @@ int serve(short port){
 
                     if(read_size < 0){
                         perror("read");
+                        return 1;
                     }else if(read_size == 0){
                         printf("disconnect to %d\n", i);
                         FD_CLR(i, &read_fd);
                     }else{
-                        int write_size, size;
+                        int size;
                         int index;
                         fd_set wfd, write_fd;
 
@@ -85,11 +86,11 @@ int serve(short port){
                             }
                             if(FD_ISSET(i, &wfd)){
                                 size = write(i, buf + index, read_size - index);
-                                if(write_size < 0){
+                                if(size < 0){
                                     perror("write");
                                     return 1;
                                 }
-                                index += write_size;
+                                index += size;
                             }
                         }
                     }
